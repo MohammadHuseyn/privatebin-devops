@@ -11,4 +11,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /var/www/privatebin
 
-CMD php-fpm8 -D && nginx -g 'daemon off;'
+CMD php-fpm -D && nginx -g 'daemon off;'
