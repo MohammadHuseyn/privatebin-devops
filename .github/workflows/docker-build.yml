@@ -28,3 +28,8 @@ jobs:
             docker stop privatebin-dev || true
             docker rm privatebin-dev || true
             docker run -d -p 80:80 --name privatebin-dev privatebin:dev
+      - name: Run container
+        run: |
+          docker stop privatebin || true
+          docker rm privatebin || true
+          docker run -d --name privatebin -p 80:80 privatebin:dev
