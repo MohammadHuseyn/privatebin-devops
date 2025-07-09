@@ -23,4 +23,3 @@ A self-hosted secure PasteBin with Docker, Kubernetes, CI/CD, and observability 
 
 ```bash
 docker compose up -d
-
