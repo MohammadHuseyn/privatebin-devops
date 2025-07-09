@@ -13,23 +13,35 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run deployment script via SSH
+      - name: Deploy over SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /home/${{ secrets.SERVER_USER }}/privatebin|| git clone https://github.com/MohammadHuseyn/privatebin-devops.git /home/${{ secrets.SERVER_USER }}/privatebin
-            cd /home/${{ secrets.SERVER_USER }}/privatebin
-            git reset --hard HEAD
-            git pull origin main
+            set -e
+            
+            echo "[1/6] Cloning or pulling latest code..."
+            if [ -d "/home/${{ secrets.SERVER_USER }}/privatebin/.git" ]; then
+              cd /home/${{ secrets.SERVER_USER }}/privatebin
+              git reset --hard HEAD
+              git pull origin main
+            else
+              git clone https://github.com/MohammadHuseyn/privatebin-devops.git /home/${{ secrets.SERVER_USER }}/privatebin
+              cd /home/${{ secrets.SERVER_USER }}/privatebin
+            fi
+
+            echo "[2/6] Building Docker image..."
             docker build -t privatebin:dev ./docker/privatebin
+
+            echo "[3/6] Stopping old container if exists..."
             docker stop privatebin-dev || true
+
+            echo "[4/6] Removing old container if exists..."
             docker rm privatebin-dev || true
+
+            echo "[5/6] Running new container on port 80..."
             docker run -d -p 80:80 --name privatebin-dev privatebin:dev
-      - name: Run container
-        run: |
-          docker stop privatebin || true
-          docker rm privatebin || true
-          docker run -d --name privatebin -p 80:80 privatebin:dev
+
+            echo "[6/6] Deployment complete ✅"
