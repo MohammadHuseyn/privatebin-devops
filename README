@@ -1,0 +1,26 @@
+# PrivateBin DevOps Project
+
+A self-hosted secure PasteBin with Docker, Kubernetes, CI/CD, and observability stack.
+
+## ✨ Features
+- Dockerized PrivateBin
+- Kubernetes deployment (coming soon)
+- GitHub Actions for CI/CD
+- Monitoring with Prometheus & Grafana
+- Logging with Loki or ELK
+- Distributed tracing with Jaeger
+
+## 📦 Stack
+- PrivateBin
+- Nginx
+- Docker / Compose
+- Kubernetes
+- GitHub Actions
+- Prometheus + Grafana
+- Jaeger / ELK
+
+## 🚀 Getting Started
+
+```bash
+docker compose up -d
+
