@@ -1,6 +1,6 @@
 FROM alpine:3.19
 
-RUN apk add --no-cache php8 php8-fpm php8-opcache php8-gd php8-mbstring php8-zip nginx git unzip curl
+RUN apk add --no-cache php php-fpm php-opcache php-gd php-mbstring php-zip nginx git unzip curl
 
 WORKDIR /var/www
 
